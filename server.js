@@ -71,7 +71,7 @@ function logToExcel(ticketDetails) {
 async function sendSupportEmail(ticket) {
   const mailOptions = {
     from: `"VBuddy Support" <${process.env.EMAIL_USER}>`,
-    to: 'krishna.mohan@vservit.com', // <<--- IMPORTANT: REPLACE with your ACTUAL helpdesk email
+    to: 'contactus@vservit.com', // <<--- IMPORTANT: REPLACE with your ACTUAL helpdesk email
     subject: `New Support Request - Ticket ID: ${ticket.ticketID}`,
     html: `
       <p>A new support request has been raised via the VBuddy chatbot with the following details:</p>
