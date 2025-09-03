@@ -153,8 +153,8 @@ async function sendUserConfirmationEmail(ticket) {
     `,
     attachments: [
       {
-        filename: 'mailPic.jpg',
-        path: path.join(__dirname, './mailPic.jpg'),
+        filename: 'mailPic.png',
+        path: path.join(__dirname, './mailPic.png'),
         cid: 'vservlogo'
       }
     ]
