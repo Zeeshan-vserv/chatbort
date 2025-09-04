@@ -9,6 +9,7 @@ import path from 'path';
 import xlsx from 'xlsx';
 import { fileURLToPath } from 'url';
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -44,6 +45,7 @@ app.post('/api/log-chat', async (req, res) => {
     res.status(500).json({ ok: false, error: 'log_failed' });
   }
 });
+
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -126,11 +128,11 @@ function logToExcel(ticketDetails) {
 // Send support team email
 async function sendSupportEmail(ticket) {
   const mailOptions = {
-    from: `"VBuddy Support" <${process.env.EMAIL_USER}>`,
-    to: 'contactus@vservit.com', 
+    from: `"Vserv Lumo Bot Support" <${process.env.EMAIL_USER}>`,
+    to: 'krishna.mohan@vservit.com', // Support team email
     subject: `New Support Request - Ticket ID: ${ticket.ticketID}`,
     html: `
-      <p>A new support request has been raised via the VBuddy chatbot:</p>
+      <p>A new support request has been raised via the Vserv Lumo Bot chatbot:</p>
       <ul>
         <li><strong>Ticket ID:</strong> ${ticket.ticketID}</li>
         <li><strong>Name:</strong> ${ticket.name}</li>
@@ -156,7 +158,7 @@ async function sendSupportEmail(ticket) {
 // Send confirmation mail to user
 async function sendUserConfirmationEmail(ticket) {
   const mailOptions = {
-    from: `"VBuddy Support" <${process.env.EMAIL_USER}>`,
+    from: `"Vserv Lumo Bot Support" <${process.env.EMAIL_USER}>`,
     to: ticket.email,
     subject: `Your Support Request (Ticket ID: ${ticket.ticketID})`,
     html: `
@@ -179,9 +181,8 @@ async function sendUserConfirmationEmail(ticket) {
     `,
     attachments: [
       {
-        filename: 'mailPic.png',
-        
-        path: path.join(__dirname, './mailPic.png'),
+        filename: 'mailPic.jpg',
+        path: path.join(__dirname, './public/mailPic.jpg'),
         cid: 'vservlogo'
       }
     ]
@@ -221,7 +222,7 @@ app.post('/api/send-support-email', async (req, res) => {
   } else {
     res.status(500).json({ success: false, message: 'Failed to send support request email.', ticketID });
   }
-});
+});  // make sure path is correct
 
 // Start server
 app.listen(port, () => {
