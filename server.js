@@ -18,6 +18,32 @@ const port = process.env.PORT || 3001;
 app.use(bodyParser.json());
 app.use(cors());
 
+// ---------------- Chat Logging ----------------
+const chatLogDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(chatLogDir)) fs.mkdirSync(chatLogDir, { recursive: true });
+const chatLogFile = path.join(chatLogDir, 'chat-history.jsonl');
+
+async function appendChatRecord(record) {
+  const line = JSON.stringify(record) + '\n';
+  await fs.promises.appendFile(chatLogFile, line, { encoding: 'utf8' });
+}
+
+app.post('/api/log-chat', async (req, res) => {
+  try {
+    const { role, message } = req.body || {};
+    if (!role || !message) {
+      return res.status(400).json({ ok: false, error: 'role and message are required' });
+    }
+
+    const record = { role, message };
+    await appendChatRecord(record);
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('chat log append failed:', err);
+    res.status(500).json({ ok: false, error: 'log_failed' });
+  }
+});
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -154,6 +180,7 @@ async function sendUserConfirmationEmail(ticket) {
     attachments: [
       {
         filename: 'mailPic.png',
+        
         path: path.join(__dirname, './mailPic.png'),
         cid: 'vservlogo'
       }
