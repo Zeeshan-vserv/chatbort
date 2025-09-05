@@ -157,6 +157,7 @@ async function sendSupportEmail(ticket) {
 
 // Send confirmation mail to user
 async function sendUserConfirmationEmail(ticket) {
+  console.log(ticket.email);
   const mailOptions = {
     from: `"Vserv Lumo Bot Support" <${process.env.EMAIL_USER}>`,
     to: ticket.email,
