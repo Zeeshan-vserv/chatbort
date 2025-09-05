@@ -157,7 +157,6 @@ async function sendSupportEmail(ticket) {
 
 // Send confirmation mail to user
 async function sendUserConfirmationEmail(ticket) {
-  console.log(ticket.email);
   const mailOptions = {
     from: `"Vserv Lumo Bot Support" <${process.env.EMAIL_USER}>`,
     to: ticket.email,
@@ -183,7 +182,7 @@ async function sendUserConfirmationEmail(ticket) {
     attachments: [
       {
         filename: 'mailPic.jpg',
-        path: path.join(__dirname, './public/mailPic.jpg'),
+        path: path.join(__dirname, './mailPic.png'),
         cid: 'vservlogo'
       }
     ]
